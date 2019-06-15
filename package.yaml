@@ -25,6 +25,7 @@ dependencies:
 - filepath
 - random
 - directory
+- executable-path
 
 library:
   source-dirs: src

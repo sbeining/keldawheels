@@ -5,11 +5,19 @@ import Control.Monad
 import Data.SlotMachine
 import qualified Data.Text as T
 import System.Directory
+import System.Environment.Executable
 import System.FilePath
 
 main :: IO ()
 main = do
-  slots <- buildSlots "slots"
+  -- search in directory of the executable first and then in the current directory
+  (execPath, _) <- splitExecutablePath
+  exists <- doesDirectoryExist (execPath </> "slots")
+  let path = if exists
+      then execPath </> "slots"
+      else "slots"
+
+  slots <- buildSlots path
   let machine = SlotMachine slots
 
   winners <- spin machine

@@ -26,6 +26,7 @@ dependencies:
 - random
 - directory
 - executable-path
+- threepenny-gui
 
 library:
   source-dirs: src

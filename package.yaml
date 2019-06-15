@@ -24,6 +24,7 @@ dependencies:
 - text
 - filepath
 - random
+- directory
 
 library:
   source-dirs: src

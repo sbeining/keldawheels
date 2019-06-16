@@ -17,6 +17,7 @@ ul.result {
 ul.result li {
   flex: 1 1;
   text-align: center;
+  margin: 5%;
 }
 
 ul.result li img {

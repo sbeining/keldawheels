@@ -10,7 +10,6 @@ import qualified Data.ByteString.Char8 as C
 import Data.ByteString.Base64
 import qualified Data.Text as T
 import System.FilePath
-import Magic
 
 data SlotItem = ImageItem FilePath
               | TextItem T.Text
@@ -33,9 +32,15 @@ toHtmlSrc imageItem = do
 
 toMimeType :: SlotItem -> IO String
 toMimeType (ImageItem path) = do
-  magic <- magicOpen [MagicMime]
-  magicLoadDefault magic
-  magicFile magic path
+  let extension = takeExtension path
+  return $ case extension of
+    ".png" -> "image/png"
+    ".jpg" -> "image/jpeg"
+    ".jpe" -> "image/jpeg"
+    ".jpeg" -> "image/jpeg"
+    ".gif" -> "image/gif"
+    ".svg" -> "image/svg+xml"
+    _ -> error "FileType is not supported"
 toMimeType (TextItem _) = error "This should not be called on a TextItem"
 
 toBase64 :: SlotItem -> IO BS.ByteString

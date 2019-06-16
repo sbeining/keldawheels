@@ -3,6 +3,7 @@ module Main where
 
 import Control.Monad
 import qualified Data.SlotMachine as SlotMachine
+import qualified Data.SlotItem as SlotItem
 import qualified Data.Text as T
 import System.Directory
 import System.Environment.Executable
@@ -56,4 +57,7 @@ setup machine window = void $ do
 
     buildSlotItemWidget :: SlotMachine.SlotItem -> UI Element
     buildSlotItemWidget (SlotMachine.TextItem content) = UI.li #+ [string $ T.unpack content]
-    buildSlotItemWidget (SlotMachine.ImageItem content) = UI.li #+ [string content]
+    buildSlotItemWidget item = do
+      src <- liftIO $ SlotItem.toHtmlSrc item
+      UI.li #+
+        [ UI.img # set UI.src src ]

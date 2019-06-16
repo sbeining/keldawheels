@@ -27,6 +27,9 @@ dependencies:
 - directory
 - executable-path
 - threepenny-gui
+- magic
+- bytestring
+- base64-bytestring
 
 library:
   source-dirs: src

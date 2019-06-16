@@ -1,0 +1,28 @@
+body {
+  margin: 0;
+  padding: 0;
+}
+
+ul.result {
+  display: flex;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+ul.result li {
+  flex: 1 1;
+  text-align: center;
+}
+
+ul.result li img {
+  width: 100%;
+}
+
+ul.result li.text {
+  display: flex;
+}
+
+ul.result li.text span {
+  margin: auto;
+}

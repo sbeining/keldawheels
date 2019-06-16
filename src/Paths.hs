@@ -1,5 +1,6 @@
 module Paths
   ( getSlotsPath
+  , getStaticPath
   )
 where
 
@@ -14,3 +15,11 @@ getSlotsPath = do
   return $ if exists
       then execPath </> "slots"
       else "slots"
+
+getStaticPath :: IO FilePath
+getStaticPath = do
+  (execPath, _) <- splitExecutablePath
+  exists <- doesDirectoryExist (execPath </> "static")
+  if exists
+    then return $ execPath </> "static"
+    else makeAbsolute "static"

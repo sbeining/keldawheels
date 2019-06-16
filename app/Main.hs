@@ -11,19 +11,23 @@ import Graphics.UI.Threepenny.Core
 
 main :: IO ()
 main = do
+  static <- getStaticPath
   path <- getSlotsPath
   machine <- SlotMachine.fromFilePath path
 
-  startGUI defaultConfig (setup machine)
+  startGUI defaultConfig
+    { jsStatic = Just static
+    } $ setup machine
 
 setup :: SlotMachine.SlotMachine -> Window -> UI ()
 setup machine window = void $ do
   _ <- return window # set UI.title "Lucky Wheels"
+  UI.addStyleSheet window "styles.css"
 
   -- GUI Elements
   slots <- buildSlotMachineWidget machine
   button <- UI.button #+ [string "Roll All!"]
-  result <- UI.div
+  result <- UI.ul #. "result"
 
   -- Events
   on UI.click button $ const $ do
@@ -41,14 +45,17 @@ setup machine window = void $ do
 
   where
     buildSlotMachineWidget :: SlotMachine.SlotMachine -> UI Element
-    buildSlotMachineWidget (SlotMachine.SlotMachine slots) = UI.div #+ (buildSlotWidget <$> slots)
+    buildSlotMachineWidget (SlotMachine.SlotMachine slots) =
+      UI.div #. "slot-machine" #+ (buildSlotWidget <$> slots)
 
     buildSlotWidget :: SlotMachine.Slot -> UI Element
     buildSlotWidget (SlotMachine.Slot items) = do
-      UI.ul #+ (buildSlotItemWidget <$> items)
+      UI.ul #. "slot" #+ (buildSlotItemWidget <$> items)
 
     buildSlotItemWidget :: SlotMachine.SlotItem -> UI Element
-    buildSlotItemWidget (SlotMachine.TextItem content) = UI.li #+ [string $ T.unpack content]
+    buildSlotItemWidget (SlotMachine.TextItem content) =
+      UI.li #. "text" #+ [string $ T.unpack content]
+
     buildSlotItemWidget item = do
       src <- liftIO $ SlotItem.toHtmlSrc item
       UI.li #+

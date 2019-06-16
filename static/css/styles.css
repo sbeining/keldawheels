@@ -3,6 +3,10 @@ body {
   padding: 0;
 }
 
+.slot-machine {
+  display: none;
+}
+
 ul.result {
   display: flex;
   list-style-type: none;

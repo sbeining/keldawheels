@@ -5,21 +5,13 @@ import Control.Monad
 import qualified Data.SlotMachine as SlotMachine
 import qualified Data.SlotItem as SlotItem
 import qualified Data.Text as T
-import System.Directory
-import System.Environment.Executable
-import System.FilePath
+import Paths
 import qualified Graphics.UI.Threepenny as UI
 import Graphics.UI.Threepenny.Core
 
 main :: IO ()
 main = do
-  -- search in directory of the executable first and then in the current directory
-  (execPath, _) <- splitExecutablePath
-  exists <- doesDirectoryExist (execPath </> "slots")
-  let path = if exists
-      then execPath </> "slots"
-      else "slots"
-
+  path <- getSlotsPath
   machine <- SlotMachine.fromFilePath path
 
   startGUI defaultConfig (setup machine)

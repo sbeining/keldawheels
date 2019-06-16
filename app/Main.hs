@@ -65,4 +65,4 @@ setup machine window = void $ do
         [ UI.img # set UI.src src ]
 
     textfill :: JSFunction ()
-    textfill = ffi "$('ul.result li').textfill()"
+    textfill = ffi "$('ul.result li').textfill({ maxFontPixels: 0 })"
